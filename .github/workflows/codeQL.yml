@@ -7,7 +7,9 @@ on:
 jobs:
   CodeQL-Build:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        language: [ 'javascript', 'python' ] # List the languages you want to analyze
     permissions:
       # required for all workflows
       security-events: write
@@ -21,7 +23,7 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v1
         with:  
-          languages: cpp, csharp, python
+          languages: ${{ matrix.language }} # Dynamically assign language from matrix
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
